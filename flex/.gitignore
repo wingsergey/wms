@@ -1,0 +1,14 @@
+
+###> symfony/framework-bundle ###
+.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+.idea
+
+/composer.lock
+
+config/packages/valpio_constants.yaml
+symfony.lock

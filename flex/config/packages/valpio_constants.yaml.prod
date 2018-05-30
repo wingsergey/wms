@@ -1,0 +1,10 @@
+parameters:
+    async_processing:
+        root_dir: "%kernel.root_dir%"
+
+    log_audit_client:
+        api_url:      'http://192.168.0.13:8050/api/' # "http://logger.int/api/"
+        timeout:      2
+        api_unavailable_fallback_route: ''
+        debug_mode:   false #"%kernel.debug%"
+        channel:      "wms"

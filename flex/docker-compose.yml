@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+    postgres:
+        build: 
+            context: ./../../umarket/docker/docker-postgres-96-alpine
+            dockerfile: ./Dockerfile
+        restart: always
+        volumes:
+            - wms_pgdata:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_PASSWORD=example
+        ports:
+            - "65431:5432"
+            
+    nginx-php-fpm:
+        env_file: .env
+        container_name: umarket-wms
+        build: 
+            context: ./../../umarket/docker/docker-nginx-php-fpm-7.2
+            dockerfile: ./Dockerfile
+        volumes:
+            - ./:/var/www/html:rw
+        environment:
+            - PHP_MEM_LIMIT=512M
+            - WEBROOT="/var/www/html/public/"
+            - ENABLE_XDEBUG=0
+            - XDEBUG_CONFIG=remote_host=192.168.0.13
+            - PHP_IDE_CONFIG=serverName=WMS
+        ports:
+            - "8051:80"
+        depends_on:
+            - postgres
+            
+volumes:
+    wms_pgdata:
+        external: true
+        
+networks:
+    default:
+        external:
+            name: umarket_network
